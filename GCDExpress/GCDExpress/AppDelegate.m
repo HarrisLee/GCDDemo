@@ -1,9 +1,9 @@
 //
 //  AppDelegate.m
-//  AsyncThread
+//  GCDExpress
 //
-//  Created by JianRongCao on 15/12/2.
-//  Copyright © 2015年 JianRongCao. All rights reserved.
+//  Created by JianRongCao on 7/21/16.
+//  Copyright © 2016 JianRongCao. All rights reserved.
 //
 
 #import "AppDelegate.h"
