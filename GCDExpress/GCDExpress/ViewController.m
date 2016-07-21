@@ -17,39 +17,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    CGFloat positionX = [UIScreen mainScreen].bounds.size.width/2.0 - 90;
+    CGFloat width = 200;
+    CGFloat height = 40;
     UIButton *button = [self createButton:@"信号量的处理"
                                    action:@selector(queryMainThread:)
-                                    frame:CGRectMake(10, 60, 180, 40)];
+                                    frame:CGRectMake(positionX, 60, width, height)];
     [self.view addSubview:button];
     
     button = [self createButton:@"queueExeInfo"
                          action:@selector(queueExeInfo)
-                          frame:CGRectMake(10, 120, 180, 40)];
+                          frame:CGRectMake(positionX, 120, width, height)];
     [self.view addSubview:button];
     
     button = [self createButton:@"queueCreateWithSpecific"
                          action:@selector(queueCreateWithSpecific)
-                          frame:CGRectMake(10, 180, 180, 40)];
+                          frame:CGRectMake(positionX, 180, width, height)];
     [self.view addSubview:button];
     
     button = [self createButton:@"queueCreateWithSpecific"
                          action:@selector(queueCreateWithSpecific)
-                          frame:CGRectMake(10, 240, 180, 40)];
+                          frame:CGRectMake(positionX, 240, width, height)];
     [self.view addSubview:button];
 
     button = [self createButton:@"dispatchBarrier"
                          action:@selector(dispatchBarrier)
-                          frame:CGRectMake(10, 300, 180, 40)];
+                          frame:CGRectMake(positionX, 300, width, height)];
     [self.view addSubview:button];
     
     button = [self createButton:@"dispatch_apply"
                          action:@selector(dispatch_apply)
-                          frame:CGRectMake(10, 360, 180, 40)];
+                          frame:CGRectMake(positionX, 360, width, height)];
     [self.view addSubview:button];
     
     button = [self createButton:@"dispatchGroup"
                          action:@selector(dispatchGroup)
-                          frame:CGRectMake(10, 420, 180, 40)];
+                          frame:CGRectMake(positionX, 420, width, height)];
     [self.view addSubview:button];
 
 }
