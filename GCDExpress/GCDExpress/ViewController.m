@@ -55,6 +55,52 @@
                           frame:CGRectMake(positionX, 420, width, height)];
     [self.view addSubview:button];
 
+    
+    NSBlockOperation *op = [self start];
+    NSInvocationOperation *opInvocation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(showOperation:) object:@"message"];
+//    [opInvocation setQueuePriority:NSOperationQueuePriorityHigh];
+    
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    
+    [queue addOperation:op];
+    [queue addOperation:opInvocation];
+//    [opInvocation start];
+    [op setCompletionBlock:^{
+        NSLog(@"execute finished");
+    }];
+    NSLog(@"%@",op);
+}
+
+- (void)showOperation:(NSString *)message
+{
+    NSLog(@"%@",message);
+}
+
+/**
+ *  启动一个BlockOperation,  (此队列是非并发的，只有加入到NSOperationQueue时，才是并发的)
+ *
+ *  @return 返回生成的BlockOperation
+ */
+- (NSBlockOperation *)start
+{
+    NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"block");
+    }];
+    [operation addExecutionBlock:^{
+        NSLog(@"start 1 op");
+        sleep(1);
+        NSLog(@"end 1 op");
+    }];
+    
+    [operation addExecutionBlock:^{
+        NSLog(@"start 2 op");
+        sleep(1);
+        NSLog(@"end 2 op");
+    }];
+//    [operation start];
+    NSLog(@"return op");
+    
+    return operation;
 }
 
 /**
@@ -98,6 +144,8 @@
     //第一种创建队列的办法
     dispatch_queue_t queue = dispatch_queue_create("com.suning.queue", DISPATCH_QUEUE_SERIAL);
     //    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    //    将一个第一个参数的队列放到后面的队列处理。  设置为同一个优先级。
+    //    前面的队列通过 dispatch_suspend暂停，不会影响后面的队列，而后面的队列dispatch_suspend，则会导致前面的队列暂停执行
     dispatch_set_target_queue(dispatch_get_main_queue(), queue);
     dispatch_sync(queue, ^{
         dispatch_async(queue, ^{
@@ -157,11 +205,23 @@
         }
     });
     
+    dispatch_async(queue11, ^{
+        for (int i = 0; i < 10; i++) {
+            NSLog(@"queue11 ++++++");
+        }
+    });
+    
     dispatch_barrier_async(queue11, ^{
         sleep(2);
         for (int i = 0; i < 10; i++) {
             sleep(1);
             NSLog(@"queue22 %d",i);
+        }
+    });
+    
+    dispatch_async(queue11, ^{
+        for (int i = 0; i < 10; i++) {
+            NSLog(@"queue11 ++++++");
         }
     });
     
