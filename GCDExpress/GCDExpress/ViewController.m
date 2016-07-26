@@ -114,7 +114,7 @@
      *  2.同步下，全部按代码顺序执行
      */
     dispatch_queue_t queue1 = dispatch_queue_create("com.company.queue1", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_queue_t queue2 = dispatch_queue_create("com.company.queue2", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_queue_t queue2 = dispatch_queue_create("com.company.queue2", DISPATCH_QUEUE_SERIAL);
     
     dispatch_async(queue1, ^{ // block1
         for (int i = 0; i < 10; i ++) {
