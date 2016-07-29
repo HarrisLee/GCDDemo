@@ -328,6 +328,7 @@
     
     dispatch_async(queue, ^{
         NSLog(@"car 1 here");
+
         dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 1*NSEC_PER_SEC);
         //dispatch_semaphore_wait   等待信号量。后面的参数为等待时间，时间到了之后，不管是否有信号量  均执行
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
