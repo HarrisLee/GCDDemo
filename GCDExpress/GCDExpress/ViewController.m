@@ -9,7 +9,9 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-
+{
+    NSMutableArray *mArray;
+}
 @end
 
 @implementation ViewController
@@ -69,6 +71,45 @@
         NSLog(@"execute finished");
     }];
     NSLog(@"%@",op);
+    
+    
+    
+    
+    
+    //enumerateObjectsUsingBlock 块的使用。   以及
+    NSArray *array = @[@"1",@"2",@"3",@"4"];
+    [array enumerateObjectsUsingBlock:^(NSString *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"%@",obj);
+    }];
+    
+    NSDictionary *dic = @{@"key1":@"value1",@"key2":@"value2",@"key3":@"value3"};
+    [dic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSLog(@"%@-%@",key,obj);
+    }];
+    
+    
+    mArray = [[NSMutableArray alloc] init];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [mArray addObject:@"1111111"];
+        NSLog(@"%@",mArray);
+    });
+    
+    for (int i = 0; i<9999; i++) {
+        [mArray addObject:@(i)];
+    }
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [mArray enumerateObjectsUsingBlock:^(NSNumber *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"%@",obj);
+        }];
+    });
+    
+    NSLog(@"哈哈哈");
+    
+    
+    CFArrayRef cfArray = (__bridge CFArrayRef)(mArray);
+    CFArrayGetCount(cfArray);
 }
 
 - (void)showOperation:(NSString *)message
@@ -391,8 +432,18 @@
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    [super touchesMoved:touches withEvent:event];
     UITouch *touch = [touches anyObject];
     NSLog(@"%@",NSStringFromCGPoint([touch locationInView:self.view]));
+    NSLog(@"remove");
+    [mArray removeAllObjects];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
+    NSLog(@"remove");
+    [mArray removeAllObjects];
 }
 
 - (void)didReceiveMemoryWarning {
